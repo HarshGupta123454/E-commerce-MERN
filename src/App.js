@@ -9,6 +9,7 @@ import Products from "./Products"
 import {ThemeProvider} from "styled-components"
 import { GlobalStyle } from "./GlobalStyle";
 import Header from "./components/Header"
+import Footer from "./components/Footer";
 
 function App() {
   const theme = {
@@ -19,7 +20,7 @@ function App() {
       black: " #212529",
       helper: "#8490ff",
 
-      bg: "#F6F8FA",
+      bg: "#e7eff7",
       footer_bg: "#0a1435",
       btn: "rgb(98 84 243)",
       border: "rgba(98, 84, 243, 0.5)",
@@ -51,7 +52,9 @@ function App() {
       <Route path="/SingleProduct/:id" element={<SingleProduct/>}/>
       <Route path="/Products" element={<Products/>}/>
       <Route path="/*" element={<ErrorPage/>}/>
+      
     </Routes>
+    <Footer/>
    
 
     </BrowserRouter>

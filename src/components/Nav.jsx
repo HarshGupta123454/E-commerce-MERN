@@ -22,19 +22,20 @@ export default function Nav() {
                 color: ${({ theme }) => theme.colors.black};
                 transition: color 0.3s linear;
             }
-            &:hover,
-        &:active {
+            &.active,
+            &:hover{
           color: ${({ theme }) => theme.colors.helper};
         }
-        }
-    
+      }
+    }
+    .mobile-navbar-btn{
+        display:none;
     }
     .close-outline {
         display: none;
       }
     .cart-trolley--link{
         // position:relative
-        
         .cart-trolley {
             // position:relative;
             font-size: 2.7rem;
@@ -43,22 +44,22 @@ export default function Nav() {
             width: 1.6rem;
             height: 1.7rem;
             font-size:small;
+            padding-right: 1px;
             position: absolute;
             background-color: #000;
             color: #000;
             border-radius: 50%;
             display: grid;
             place-items: center;
-            top: 2%;
-            right: 2%;
+            top: 12px;
+            right: 27px;
             background-color: ${({ theme }) => theme.colors.helper};
         }
-        
-    }
-    .mobile-navbar-btn{
-        display:none;
     }
     @media (max-width: ${({ theme }) => theme.media.mobile}){
+      .navbar{
+        overflow-x: hidden;
+      }
         .mobile-navbar-btn{
             display:inline-block;
             z-index:999;
@@ -66,7 +67,6 @@ export default function Nav() {
             border:${({theme})=> theme.media.mobile}
 
             .mobile-nav-icon{
-                
                 color:${({theme})=> theme.colors.black}
             }
         }
@@ -90,33 +90,29 @@ export default function Nav() {
             left:0;
             display:flex;
             align-items:center;
+            text-align: center;
             flex-direction:column;
             background-color:#fff;
-            justify-content:center
+            justify-content:center;
             visibility: hidden;
             opacity: 0;
-            
-            // transform: translateX(100%);
-            transition:all3s linear;
+            transition:all 3s ease;
             z-index:999;
         }
         .active .navbar-lists {
             visibility: visible;
             opacity: 1;
-            transform: translateX(0);
             z-index: 999;
             // transform-origin: right;
             transition: all 3s linear;
             .navbar-link {
               font-size: 4.2rem;
             }
-        }  
+        }
         .cart-trolley--link{
             .cart-trolley {
-                
                 font-size: 3.7rem;
               }
-
             .cart-total--item{
                 position:relative;
                 width: 2.6rem;
@@ -126,17 +122,15 @@ export default function Nav() {
             }
         }
     }
-        
-    }
-    `
+}`
   return (
     <Nav>
         <div className={menuIcon ? "navbar active" : "navbar"}>
             <ul className="navbar-lists">
-                <li className="navbar-items"><NavLink className="navbar-link" to="/">Home</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" to="/about">About</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" to="/products">Products</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" to="/contact">Contact</NavLink> </li>
+                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/">Home</NavLink> </li>
+                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/about">About</NavLink> </li>
+                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/products">Products</NavLink> </li>
+                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/contact">Contact</NavLink> </li>
                 <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <span className="cart-total--item"> 10 </span>
@@ -144,6 +138,7 @@ export default function Nav() {
             </NavLink>
           </li>
             </ul>
+         {/* two button for open and close meny */}
             <div className="mobile-navbar-btn">
           <CgMenu
             name="menu-outline"
@@ -153,7 +148,7 @@ export default function Nav() {
           <CgClose
             name="close-outline"
             className="mobile-nav-icon close-outline"
-            onClick={() => setMenuIcon(false)}
+             onClick={() => setMenuIcon(false)}
           />
         </div>
         </div>

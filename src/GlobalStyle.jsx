@@ -40,13 +40,13 @@ h1 {
   font-size: 6rem;
   font-weight: 900;
 }
- h2 {
+h2{
    color: ${({ theme }) => theme.colors.heading};
    font-size: 4.4rem;
    font-weight: 300;
    white-space: normal;
   
-  }
+}
 h3 {
   font-size: 1.8rem;
   font-weight: 400;
@@ -139,7 +139,7 @@ input, textarea{
 .grid{
   gap: 3.2rem;
 }
-      .grid-two-column , .grid-three-column, .grid-four-column{
+.grid-two-column , .grid-three-column, .grid-four-column{
           grid-template-columns: 1fr;
         }
     }
