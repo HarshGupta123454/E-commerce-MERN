@@ -89,7 +89,6 @@ const Wrapper=styled.section`
 }`
 
 export default function Gridview({filter_product}) {
-    console.log(filter_product)
   return (
     <Wrapper>
     <div className="grid grid-three-column">

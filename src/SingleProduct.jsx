@@ -17,7 +17,7 @@ export default function SingleProduct() {
   useEffect(()=>{
     getSingleProduct(`${API}?id=${id}`)
   },[]);
-  const {name,price,stars,stock,reviews,image,description,company,category}=singleProduct;
+  const {name,price,stars,stock,reviews,image,description,company}=singleProduct;
   const Wrapper=styled.section`
     .container{
       padding:9rem 10rem;
@@ -76,7 +76,6 @@ export default function SingleProduct() {
         }
         }
         .product-data-info{
-          
         }
       }
 

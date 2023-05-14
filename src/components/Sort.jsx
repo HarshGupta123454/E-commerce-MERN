@@ -27,9 +27,20 @@ const Wrapper=styled.section`
       color: #fff;
     }
   }
+  .sort-selection{
+    .select{
+      padding: 0.5rem 2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+
+      option{
+        cursor: pointer;
+      }
+    }
+  }
 `
 export default function Sort() {
-    const {grid_view,setGridView,setListView,filter_product}=Usefiltercontext()
+    const {grid_view,setGridView,setListView,filter_product,sortvalue}=Usefiltercontext()
   return (
     <Wrapper className='sort-section'>
         {/* for 1st column */}
@@ -48,7 +59,13 @@ export default function Sort() {
             <p>{`${filter_product.length} Product Available`}</p>
         </div>
         <div className="sort-selection">
-            sortdata
+            <select name="sort" id="sort" className='select' onChange={(e)=> sortvalue(e)}>
+              <option>select range</option>
+              <option value="lowest">price (lowest)</option>
+              <option value="a-z">price (a-z)</option>
+              <option value="z-a">price (z-a)</option>
+              <option value="highest">price (highest)</option>
+            </select>
         </div>
 
     </Wrapper>
