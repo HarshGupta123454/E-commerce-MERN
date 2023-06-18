@@ -1,15 +1,11 @@
-import {BrowserRouter,Route,Routes} from "react-router-dom"
-import Home from "./Home"
-import About from "./About";
-import Cart from "./Cart";
-import Contact from "./Contact";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import ErrorPage from "./ErrorPage";
-import SingleProduct from "./SingleProduct";
-import Products from "./Products"
-import {ThemeProvider} from "styled-components"
+import { ThemeProvider } from "styled-components"
 import { GlobalStyle } from "./GlobalStyle";
 import Header from "./components/Header"
 import Footer from "./components/Footer";
+import Register from "./Register";
+import Protectedroutes from "./Protectedroutes";
 
 function App() {
   const theme = {
@@ -37,28 +33,20 @@ function App() {
     },
   };
 
-  
+
   return (
     <>
-    <ThemeProvider theme={theme}>
-    <BrowserRouter>
-    <GlobalStyle/>
-    <Header/>
-    <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/About" element={<About/>}/>
-      <Route path="/Cart" element={<Cart/>}/>
-      <Route path="/Contact" element={<Contact/>}/>
-      <Route path="/SingleProduct/:id" element={<SingleProduct/>}/>
-      <Route path="/Products" element={<Products/>}/>
-      <Route path="/*" element={<ErrorPage/>}/>
-      
-    </Routes>
-    <Footer/>
-   
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Protectedroutes />} />
+            <Route path="/*" element={<ErrorPage />} />
 
-    </BrowserRouter>
-    </ThemeProvider>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   );
 }

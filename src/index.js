@@ -3,16 +3,29 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {AppProvidor} from "./context/Productcontext"
+import { AppProvidor } from "./context/Productcontext"
 import { Filterappcontext } from './context/Filtercontext';
+import { ToastContainer } from 'react-toastify';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AppProvidor>
       <Filterappcontext>
-    <App />
-    </Filterappcontext>
+        <App />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          style={{ fontSize: "20px" }}
+          theme="light" />
+      </Filterappcontext>
     </AppProvidor>
   </React.StrictMode>
 );
