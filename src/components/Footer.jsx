@@ -1,13 +1,14 @@
-import React from 'react'
-import styled from "styled-components"
-import {Buttons} from "./Buttons"
-import {NavLink} from "react-router-dom"
+import { useLocation } from "react-router-dom";
+import React from "react";
+import styled from "styled-components";
+import { Buttons } from "./Buttons";
+import { NavLink } from "react-router-dom";
 import { FaDiscord, FaInstagram, FaYoutube } from "react-icons/fa";
 export default function Footer() {
-    const Wrapper=styled.section`
-    .contact-short{
-      max-width:60vw;
-      margin:auto;
+  const Wrapper = styled.section`
+    .contact-short {
+      max-width: 60vw;
+      margin: auto;
       padding: 2rem 3rem;
       background-color: ${({ theme }) => theme.colors.bg};
       border-radius: 1rem;
@@ -19,9 +20,9 @@ export default function Footer() {
         align-self: center;
       }
     }
-    footer{
+    footer {
       background-color: ${({ theme }) => theme.colors.footer_bg};
-      padding:9rem 0 5rem 0;
+      padding: 9rem 0 5rem 0;
 
       h3 {
         color: ${({ theme }) => theme.colors.hr};
@@ -30,16 +31,16 @@ export default function Footer() {
       p {
         color: ${({ theme }) => theme.colors.white};
       }
-      .footer-social--icons{
-        display:flex;
-        gap:2rem;
+      .footer-social--icons {
+        display: flex;
+        gap: 2rem;
 
-        div{
-          padding:0.5rem;
-          border-radius:50%;
+        div {
+          padding: 0.5rem;
+          border-radius: 50%;
           border: 2px solid ${({ theme }) => theme.colors.white};
         }
-        .icons{
+        .icons {
           color: ${({ theme }) => theme.colors.white};
           font-size: 1.8rem;
           position: relative;
@@ -72,72 +73,72 @@ export default function Footer() {
         padding-top: 4.8rem;
       }
     }
-    `
+  `;
+  const withouSidebarRoutes = ["/register", "/login", "/forgot"];
+  const { pathname } = useLocation();
+  if (withouSidebarRoutes.some((item) => pathname.includes(item))) return null;
   return (
     <Wrapper>
-        <div className="contact-short">
-            <div className="grid grid-two-column">
-                <div><h3>Ready to get started?</h3>
-              <h3>Talk to us today</h3>
-              </div>
-              <div>
-              <Buttons className="btn hireme-btn">
-                <NavLink to="/"> Get Started </NavLink>
-              </Buttons>
-              </div>
-            </div>
+      <div className="contact-short">
+        <div className="grid grid-two-column">
+          <div>
+            <h3>Ready to get started?</h3>
+            <h3>Talk to us today</h3>
+          </div>
+          <div>
+            <Buttons className="btn hireme-btn">
+              <NavLink to="/"> Get Started </NavLink>
+            </Buttons>
+          </div>
         </div>
-        <footer>
-          <div className="container grid grid-four-column">
+      </div>
+      <footer>
+        <div className="container grid grid-four-column">
           <div className="footer-about">
-              <h3>my store</h3>
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
-            </div>
-            <div className="footer-subscribe">
-              <h3>Subscribe to get important updates</h3>
-              <form action="#">
-                <input type="email" name="email" placeholder="YOUR E-MAIL" />
-
-                <input type="submit" value="subscribe" />
-              </form>
-            </div>
-            <div className="footer-social">
-              <h3>Follow Us</h3>
-              <div className="footer-social--icons">
-                <div>
-                  <FaDiscord className="icons" />
-                </div>
-                <div>
-                  <FaInstagram className="icons" />
-                </div>
-                <div>
-                  <a
-                    href="t"
-                    target="_blank">
-                    <FaYoutube className="icons" />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="footer-contact">
-              <h3>Call Us</h3>
-              <h3>+91 12345678978</h3>
-            </div>
+            <h3>my store</h3>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
           </div>
+          <div className="footer-subscribe">
+            <h3>Subscribe to get important updates</h3>
+            <form action="#">
+              <input type="email" name="email" placeholder="YOUR E-MAIL" />
 
-          <div className="footer-bottom--section">
-            <hr />
-            <div className="container grid grid-two-column ">
-              <p>
-                @{new Date().getFullYear()} my store. All Rights Reserved
-              </p>
+              <input type="submit" value="subscribe" />
+            </form>
+          </div>
+          <div className="footer-social">
+            <h3>Follow Us</h3>
+            <div className="footer-social--icons">
               <div>
-                <p>PRIVACY POLICY</p>
-                <p>TERMS & CONDITIONS</p>
+                <FaDiscord className="icons" />
+              </div>
+              <div>
+                <FaInstagram className="icons" />
+              </div>
+              <div>
+                <a href="t" target="_blank">
+                  <FaYoutube className="icons" />
+                </a>
               </div>
             </div>
           </div>
-        </footer>
+          <div className="footer-contact">
+            <h3>Call Us</h3>
+            <h3>+91 12345678978</h3>
+          </div>
+        </div>
+
+        <div className="footer-bottom--section">
+          <hr />
+          <div className="container grid grid-two-column ">
+            <p>@{new Date().getFullYear()} my store. All Rights Reserved</p>
+            <div>
+              <p>PRIVACY POLICY</p>
+              <p>TERMS & CONDITIONS</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </Wrapper>
-  )
+  );
 }

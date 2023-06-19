@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import { NavLink } from "react-router-dom";
-import { loginValidation } from "./Helper/validate";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { forgotValidation } from "./Helper/validate";
 import MailIcon from "@mui/icons-material/Mail";
 const Wrapper = styled.section`
   width: 100%;
@@ -26,7 +23,7 @@ const Wrapper = styled.section`
 
   .form-div {
     width: 734px;
-    height: 433px;
+    height: 208px;
     background-color: white;
     border-radius: 17px;
     display: flex;
@@ -42,13 +39,6 @@ const Wrapper = styled.section`
       color: #000000;
       text-align: left;
       margin-bottom: 12px;
-    }
-    .forgot {
-      text-align: right;
-      margin-bottom: 2rem;
-    }
-    .signin {
-      margin-top: 1rem;
     }
     .input-group {
       display: flex;
@@ -75,20 +65,6 @@ const Wrapper = styled.section`
         font-size: 15px;
         border: none;
       }
-      .eye {
-        color: #888;
-        margin-right: 15px;
-        font-size: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        -webkit-transition: all 0.3s ease;
-        -moz-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-      }
-      .eye:hover {
-        color: #5d49ab;
-      }
     }
     .button-submit {
       margin-top: 12px;
@@ -106,13 +82,12 @@ const Wrapper = styled.section`
     }
   }
 `;
-export default function Login() {
-  const [togglePassword, setTogglePassword] = useState(false);
+export default function Forgot() {
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: "" },
     validateOnBlur: false,
     validateOnChange: false,
-    validate: loginValidation,
+    validate: forgotValidation,
     onSubmit: async (values) => {
       console.log(values);
     },
@@ -120,7 +95,7 @@ export default function Login() {
   return (
     <>
       <Wrapper>
-        <h2 className="register">Login</h2>
+        <h2 className="register">Forgot Password</h2>
         <div className="form-div">
           <form onSubmit={formik.handleSubmit}>
             <p className="paragraph-text">Email</p>
@@ -135,43 +110,10 @@ export default function Login() {
                 placeholder="Enter email"
               />
             </div>
-            <p className="paragraph-text">Password</p>
-            <div className="input-group">
-              <img
-                src="password_icon.svg"
-                alt="avtar"
-                style={{ paddingLeft: "5px" }}
-              />
-              <input
-                className="input"
-                type={togglePassword ? "text" : "password"}
-                {...formik.getFieldProps("password")}
-                placeholder="Enter password"
-              />
-              {togglePassword ? (
-                <VisibilityOutlinedIcon
-                  className="eye"
-                  onClick={() => setTogglePassword(!togglePassword)}
-                />
-              ) : (
-                <VisibilityOffOutlinedIcon
-                  className="eye"
-                  onClick={() => setTogglePassword(!togglePassword)}
-                />
-              )}
-            </div>
-            <p className="paragraph-text forgot">
-              <NavLink to={"/forgot"}> Forgot Password?</NavLink>
-            </p>
             <button type="submit" className="button-submit">
-              submit
+              Next
             </button>
           </form>
-          <div>
-            <p className="paragraph-text signin">
-              Not a existing user? <NavLink to={"/register"}>SignIn</NavLink>
-            </p>
-          </div>
         </div>
       </Wrapper>
     </>

@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { NavLink } from "react-router-dom";
-import { loginValidation } from "./Helper/validate";
+import { resetValidation } from "./Helper/validate";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import MailIcon from "@mui/icons-material/Mail";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -106,13 +105,14 @@ const Wrapper = styled.section`
     }
   }
 `;
-export default function Login() {
+export default function ResetPassword() {
   const [togglePassword, setTogglePassword] = useState(false);
+  const [toggleconfirmPassword, setToggleconfirmPassword] = useState(false);
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { password: "", confirm: "" },
     validateOnBlur: false,
     validateOnChange: false,
-    validate: loginValidation,
+    validate: resetValidation,
     onSubmit: async (values) => {
       console.log(values);
     },
@@ -120,21 +120,9 @@ export default function Login() {
   return (
     <>
       <Wrapper>
-        <h2 className="register">Login</h2>
+        <h2 className="register">Reset Password</h2>
         <div className="form-div">
           <form onSubmit={formik.handleSubmit}>
-            <p className="paragraph-text">Email</p>
-            <div className="input-group">
-              <div style={{ paddingLeft: "5px" }}>
-                <MailIcon className="svg" />
-              </div>
-              <input
-                className="input"
-                type="email"
-                {...formik.getFieldProps("email")}
-                placeholder="Enter email"
-              />
-            </div>
             <p className="paragraph-text">Password</p>
             <div className="input-group">
               <img
@@ -151,6 +139,35 @@ export default function Login() {
               {togglePassword ? (
                 <VisibilityOutlinedIcon
                   className="eye"
+                  onClick={() =>
+                    setToggleconfirmPassword(!toggleconfirmPassword)
+                  }
+                />
+              ) : (
+                <VisibilityOffOutlinedIcon
+                  className="eye"
+                  onClick={() =>
+                    setToggleconfirmPassword(!toggleconfirmPassword)
+                  }
+                />
+              )}
+            </div>
+            <p className="paragraph-text">Confirm Password</p>
+            <div className="input-group">
+              <img
+                src="password_icon.svg"
+                alt="avtar"
+                style={{ paddingLeft: "5px" }}
+              />
+              <input
+                className="input"
+                type={toggleconfirmPassword ? "text" : "password"}
+                {...formik.getFieldProps("confirm")}
+                placeholder="Re-Enter password"
+              />
+              {toggleconfirmPassword ? (
+                <VisibilityOutlinedIcon
+                  className="eye"
                   onClick={() => setTogglePassword(!togglePassword)}
                 />
               ) : (
@@ -160,9 +177,6 @@ export default function Login() {
                 />
               )}
             </div>
-            <p className="paragraph-text forgot">
-              <NavLink to={"/forgot"}> Forgot Password?</NavLink>
-            </p>
             <button type="submit" className="button-submit">
               submit
             </button>

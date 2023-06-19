@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { registervalidation } from "./Helper/validate";
@@ -25,7 +26,7 @@ const Wrapper = styled.section`
 
   .form-div {
     width: 734px;
-    height: 433px;
+    height: 461px;
     background-color: white;
     border-radius: 17px;
     display: flex;
@@ -41,6 +42,9 @@ const Wrapper = styled.section`
       color: #000000;
       text-align: left;
       margin-bottom: 12px;
+    }
+    .signin {
+      margin-top: 1rem;
     }
     .input-group {
       display: flex;
@@ -166,6 +170,11 @@ export default function Register() {
               submit
             </button>
           </form>
+          <div>
+            <p className="paragraph-text signin">
+              Already a existing user? <NavLink to={"/login"}>SignIn</NavLink>
+            </p>
+          </div>
         </div>
       </Wrapper>
     </>

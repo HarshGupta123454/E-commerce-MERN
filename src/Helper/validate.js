@@ -1,7 +1,6 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// validate register form
-
+/**validate register form */
 export async function registervalidation(values) {
     const error = usernameVerify({}, values)
     passwordVerify(error, values)
@@ -10,10 +9,35 @@ export async function registervalidation(values) {
 
 }
 
+/**validate login form */
+export async function loginValidation(values) {
+    const error = emailVerify({}, values)
+    passwordVerify(error, values);
+    return error
+}
+
+/** validatea forgot password form */
+export async function forgotValidation(values) {
+    const error = emailVerify({}, values)
+    return error
+}
 
 
+/**otp validation */
+export async function Otpvalidation(valuse) {
+    const error = otpverify({}, valuse)
+    return error
+}
 
-// validate username
+/**reset validation */
+export async function resetValidation(values) {
+    const error = resetVerify({}, values)
+    return error
+}
+
+/********************************************************************************************************************************************* */
+
+/**validate username */
 function usernameVerify(error = {}, values) {
     if (!values.username) {
         error.username = "username must be provide"
@@ -25,7 +49,7 @@ function usernameVerify(error = {}, values) {
     return error
 }
 
-//validate email
+/**validate email */
 function emailVerify(error = {}, values) {
     if (!values.email) {
         error.email = ("email is required")
@@ -40,8 +64,8 @@ function emailVerify(error = {}, values) {
     return error
 }
 
-//validate password
 
+/**validate password */
 function passwordVerify(errors, values) {
     // eslint-disable-next-line no-useless-escape
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -61,4 +85,29 @@ function passwordVerify(errors, values) {
     }
 
     return errors;
+}
+
+/**validate otp */
+
+function otpverify(error = {}, values) {
+    if (!values.otp) {
+        error.otp = "otp is required"
+        toast.error('OTP IS REQUIRED')
+    } else if (values.otp.includes(" ")) {
+        error.otp = "wrong otp"
+        toast.error('WRONG OTP')
+    }
+    return error
+}
+
+/**validate reset option */
+function resetVerify(error = {}, values) {
+    if (!values.password && !values.confirm) {
+        error.password = "PASSWORD require"
+        toast.error('PASSWORD REQUIRE');
+    } else if (values.password !== values.confirm) {
+        error.password = "password and confirm password didn't match"
+        toast.error('PASSWORD AND CONFIRM PASSWORD DIDN\'T MATCH');
+    }
+    return error
 }

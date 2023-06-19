@@ -5,7 +5,17 @@ import { GlobalStyle } from "./GlobalStyle";
 import Header from "./components/Header"
 import Footer from "./components/Footer";
 import Register from "./Register";
-import Protectedroutes from "./Protectedroutes";
+import Home from "./Home";
+import About from "./About";
+import Product from "./components/Product";
+import Contact from "./Contact";
+import Cart from "./Cart";
+import SingleProduct from "./SingleProduct";
+import Protected from "./components/Protected";
+import Login from "./Login";
+import Forgot from "./Forgot";
+import Otp from "./Otp";
+import ResetPassword from "./Resetpassword";
 
 function App() {
   const theme = {
@@ -39,12 +49,26 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <GlobalStyle />
+          <Header />
           <Routes>
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Protectedroutes />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/forgot/otp" element={<Otp />} />
+            <Route path="/forgot/otp/reset" element={<ResetPassword />} />
+            <Route path="/" element={
+              <Protected>
+                <Home />
+              </Protected>
+            } />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/singleproduct/:id" element={<SingleProduct />} />
             <Route path="/*" element={<ErrorPage />} />
-
           </Routes>
+          <Footer />
         </BrowserRouter>
       </ThemeProvider>
     </>
