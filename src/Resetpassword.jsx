@@ -104,6 +104,23 @@ const Wrapper = styled.section`
       background-color: white;
     }
   }
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+    .form-div {
+      width: 90%;
+    }
+    .input-group {
+      width: 100% !important;
+    }
+    form {
+      width: 80%;
+    }
+    .button-submit {
+      width: 100% !important;
+    }
+    .paragraph-text {
+      font-size: 16px !important;
+    }
+  }
 `;
 export default function ResetPassword() {
   const [togglePassword, setTogglePassword] = useState(false);
@@ -181,11 +198,6 @@ export default function ResetPassword() {
               submit
             </button>
           </form>
-          <div>
-            <p className="paragraph-text signin">
-              Not a existing user? <NavLink to={"/register"}>SignIn</NavLink>
-            </p>
-          </div>
         </div>
       </Wrapper>
     </>

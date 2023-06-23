@@ -33,7 +33,6 @@ const Wrapper = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     .paragraph-text {
       font-style: normal;
       font-weight: 400;
@@ -103,6 +102,23 @@ const Wrapper = styled.section`
     .button-submit:hover {
       color: #5d49ab;
       background-color: white;
+    }
+  }
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+    .form-div {
+      width: 90%;
+    }
+    .input-group {
+      width: 100% !important;
+    }
+    form {
+      width: 80%;
+    }
+    .button-submit {
+      width: 100% !important;
+    }
+    .paragraph-text {
+      font-size: 16px !important;
     }
   }
 `;

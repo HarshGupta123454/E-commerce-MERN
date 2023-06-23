@@ -101,6 +101,23 @@ const Wrapper = styled.section`
       background-color: white;
     }
   }
+  @media (max-width: ${({ theme }) => theme.media.mobile}) {
+    .form-div {
+      width: 90%;
+    }
+    .input-group {
+      width: 100% !important;
+    }
+    form {
+      width: 80%;
+    }
+    .button-submit {
+      width: 100% !important;
+    }
+    .paragraph-text {
+      font-size: 16px !important;
+    }
+  }
 `;
 export default function Register() {
   const [togglePassword, setTogglePassword] = useState(false);
