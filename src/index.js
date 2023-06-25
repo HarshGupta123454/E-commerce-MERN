@@ -6,27 +6,30 @@ import reportWebVitals from './reportWebVitals';
 import { AppProvidor } from "./context/Productcontext"
 import { Filterappcontext } from './context/Filtercontext';
 import { ToastContainer } from 'react-toastify';
+import { Loginappcontext } from './context/Logincontext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AppProvidor>
-      <Filterappcontext>
-        <App />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          style={{ fontSize: "20px" }}
-          theme="light" />
-      </Filterappcontext>
-    </AppProvidor>
+    <Loginappcontext>
+      <AppProvidor>
+        <Filterappcontext>
+          <App />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            style={{ fontSize: "20px" }}
+            theme="light" />
+        </Filterappcontext>
+      </AppProvidor>
+    </Loginappcontext>
   </React.StrictMode>
 );
 

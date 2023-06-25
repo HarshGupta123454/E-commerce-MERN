@@ -52,6 +52,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/register/otp" element={<Otp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/forgot/otp" element={<Otp />} />

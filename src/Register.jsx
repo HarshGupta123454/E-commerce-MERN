@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { registervalidation } from "./Helper/validate";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import MailIcon from "@mui/icons-material/Mail";
+import { Uselogincontext } from "./context/Logincontext";
+import { toast } from "react-toastify";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -121,13 +123,38 @@ const Wrapper = styled.section`
 `;
 export default function Register() {
   const [togglePassword, setTogglePassword] = useState(false);
+  const navigate = useNavigate();
+  const { register } = Uselogincontext();
   const formik = useFormik({
-    initialValues: { email: "", password: "", username: "" },
+    initialValues: { name: "", email: "", password: "" },
     validateOnBlur: false,
     validateOnChange: false,
     validate: registervalidation,
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        const result = await toast.promise(register(values), {
+          pending: {
+            render() {
+              return "please wait";
+            },
+          },
+          success: {
+            render({ data }) {
+              navigate("/register/otp");
+              return `${data.data.msg}`;
+            },
+          },
+          error: {
+            render({ data }) {
+              // When the promise reject, data will contains the error
+              return `${data}`;
+            },
+          },
+        });
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
@@ -136,14 +163,14 @@ export default function Register() {
         <h2 className="register">Register</h2>
         <div className="form-div">
           <form onSubmit={formik.handleSubmit}>
-            <p className="paragraph-text">Username</p>
+            <p className="paragraph-text">Name</p>
             <div className="input-group">
               <img src="user.svg" alt="avtar" style={{ paddingLeft: "5px" }} />
               <input
                 className="input"
                 type="text"
-                {...formik.getFieldProps("username")}
-                placeholder="Enter username"
+                {...formik.getFieldProps("name")}
+                placeholder="Enter name"
               />
             </div>
             <p className="paragraph-text">Email</p>

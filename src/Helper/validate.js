@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 /**validate register form */
 export async function registervalidation(values) {
-    const error = usernameVerify({}, values)
+    const error = nameVerify({}, values)
     passwordVerify(error, values)
     emailVerify(error, values)
     return error
@@ -38,13 +38,13 @@ export async function resetValidation(values) {
 /********************************************************************************************************************************************* */
 
 /**validate username */
-function usernameVerify(error = {}, values) {
-    if (!values.username) {
-        error.username = "username must be provide"
-        toast.error(error.username)
-    } else if (values.username.includes(" ")) {
-        error.username = "it dosent include any spaces"
-        toast.error(error.username)
+function nameVerify(error = {}, values) {
+    if (!values.name) {
+        error.name = "name must be provide"
+        toast.error(error.name)
+    } else if (/[0-9]/.test(values.name)) {
+        error.name = "your name does not include any numbers"
+        toast.error(error.name)
     }
     return error
 }
