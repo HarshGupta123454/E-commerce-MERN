@@ -7,6 +7,7 @@ import { AppProvidor } from "./context/Productcontext"
 import { Filterappcontext } from './context/Filtercontext';
 import { ToastContainer } from 'react-toastify';
 import { Loginappcontext } from './context/Logincontext';
+import { CartAppContext } from './context/Cartcontext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <Loginappcontext>
       <AppProvidor>
         <Filterappcontext>
-          <App />
+          <CartAppContext>
+            <App />
+          </CartAppContext>
           <ToastContainer
             position="top-right"
             autoClose={5000}

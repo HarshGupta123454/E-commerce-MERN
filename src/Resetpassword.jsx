@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { resetValidation } from "./Helper/validate";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { Uselogincontext } from "./context/Logincontext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -122,6 +125,8 @@ const Wrapper = styled.section`
   }
 `;
 export default function ResetPassword() {
+  const navigate = useNavigate();
+  const { handleResetPassword } = Uselogincontext();
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleconfirmPassword, setToggleconfirmPassword] = useState(false);
   const formik = useFormik({
@@ -130,9 +135,45 @@ export default function ResetPassword() {
     validateOnChange: false,
     validate: resetValidation,
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        await toast.promise(
+          handleResetPassword({ password: values.password }),
+          {
+            pending: {
+              render() {
+                return "please wait";
+              },
+            },
+            success: {
+              render({ data }) {
+                localStorage.removeItem("otpToken");
+                navigate("/");
+                return `${data.data.msg}`;
+              },
+            },
+            error: {
+              render({ data }) {
+                // When the promise reject, data will contains the error
+                if (data === "session expired") {
+                  localStorage.removeItem("otpToken");
+                  navigate("/forgot");
+                }
+                return `${data}`;
+              },
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
+  useEffect(() => {
+    const token = localStorage.getItem("otpToken");
+    if (!token) {
+      navigate(-1);
+    }
+  }, []);
   return (
     <>
       <Wrapper>
@@ -155,23 +196,19 @@ export default function ResetPassword() {
               {togglePassword ? (
                 <VisibilityOutlinedIcon
                   className="eye"
-                  onClick={() =>
-                    setToggleconfirmPassword(!toggleconfirmPassword)
-                  }
+                  onClick={() => setTogglePassword(!togglePassword)}
                 />
               ) : (
                 <VisibilityOffOutlinedIcon
                   className="eye"
-                  onClick={() =>
-                    setToggleconfirmPassword(!toggleconfirmPassword)
-                  }
+                  onClick={() => setTogglePassword(!togglePassword)}
                 />
               )}
             </div>
             <p className="paragraph-text">Confirm Password</p>
             <div className="input-group">
               <img
-                src="password_icon.svg"
+                src={"password_icon.svg"}
                 alt="avtar"
                 style={{ paddingLeft: "5px" }}
               />
@@ -184,12 +221,16 @@ export default function ResetPassword() {
               {toggleconfirmPassword ? (
                 <VisibilityOutlinedIcon
                   className="eye"
-                  onClick={() => setTogglePassword(!togglePassword)}
+                  onClick={() =>
+                    setToggleconfirmPassword(!toggleconfirmPassword)
+                  }
                 />
               ) : (
                 <VisibilityOffOutlinedIcon
                   className="eye"
-                  onClick={() => setTogglePassword(!togglePassword)}
+                  onClick={() =>
+                    setToggleconfirmPassword(!toggleconfirmPassword)
+                  }
                 />
               )}
             </div>

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import { Otpvalidation } from "./Helper/validate";
 import MailIcon from "@mui/icons-material/Mail";
+import { Uselogincontext } from "./context/Logincontext";
+import { toast } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -81,6 +84,13 @@ const Wrapper = styled.section`
       background-color: white;
     }
   }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
     .form-div {
       width: 90%;
@@ -100,15 +110,76 @@ const Wrapper = styled.section`
   }
 `;
 export default function Otp() {
+  const { handleOtp, handleForgotOtp } = Uselogincontext();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { type } = location.state;
+  console.log(type);
   const formik = useFormik({
     initialValues: { otp: "" },
     validateOnBlur: false,
     validateOnChange: false,
     validate: Otpvalidation,
     onSubmit: async (values) => {
-      console.log(values);
+      if (type === "forgotOtp") {
+        try {
+          await toast.promise(handleForgotOtp(values), {
+            pending: {
+              render() {
+                return "please wait";
+              },
+            },
+            success: {
+              render({ data }) {
+                localStorage.setItem("otpToken", data.data.otpToken);
+                navigate("/forgot/otp/reset");
+                return `${data.data.msg}`;
+              },
+            },
+            error: {
+              render({ data }) {
+                // When the promise reject, data will contains the error
+                return `${data}`;
+              },
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (type === "registerOtp") {
+        try {
+          await toast.promise(handleOtp(values), {
+            pending: {
+              render() {
+                return "please wait";
+              },
+            },
+            success: {
+              render({ data }) {
+                localStorage.setItem("authToken", data.data.authToken);
+                localStorage.removeItem("otpToken");
+                navigate("/");
+                return `${data.data.msg}`;
+              },
+            },
+            error: {
+              render({ data }) {
+                // When the promise reject, data will contains the error
+                return `${data}`;
+              },
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
   });
+  useEffect(() => {
+    if (!localStorage.getItem("otpToken")) {
+      navigate(-1);
+    }
+  }, []);
   return (
     <>
       <Wrapper>
@@ -122,7 +193,7 @@ export default function Otp() {
               </div>
               <input
                 className="input"
-                type="text"
+                type="number"
                 {...formik.getFieldProps("otp")}
                 placeholder="Enter your otp here"
               />

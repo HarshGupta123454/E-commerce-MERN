@@ -132,7 +132,7 @@ export default function Register() {
     validate: registervalidation,
     onSubmit: async (values) => {
       try {
-        const result = await toast.promise(register(values), {
+        await toast.promise(register(values), {
           pending: {
             render() {
               return "please wait";
@@ -140,7 +140,7 @@ export default function Register() {
           },
           success: {
             render({ data }) {
-              navigate("/register/otp");
+              navigate("/register/otp", { state: { type: "registerOtp" } });
               return `${data.data.msg}`;
             },
           },
@@ -151,7 +151,6 @@ export default function Register() {
             },
           },
         });
-        console.log(result);
       } catch (error) {
         console.log(error);
       }

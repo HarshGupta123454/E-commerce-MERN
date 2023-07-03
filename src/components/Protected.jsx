@@ -1,7 +1,7 @@
-import React from "react";
+import { Uselogincontext } from "../context/Logincontext";
 import { Navigate } from "react-router-dom";
 export default function Protected({ children }) {
-  const isAuthenticated = false;
+  const { isAuthenticated } = Uselogincontext();
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

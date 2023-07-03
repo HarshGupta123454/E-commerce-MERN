@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useFormik } from "formik";
 import { forgotValidation } from "./Helper/validate";
 import MailIcon from "@mui/icons-material/Mail";
+import { Uselogincontext } from "./context/Logincontext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -100,13 +103,36 @@ const Wrapper = styled.section`
   }
 `;
 export default function Forgot() {
+  const { handleForgot } = Uselogincontext();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: { email: "" },
     validateOnBlur: false,
     validateOnChange: false,
     validate: forgotValidation,
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        await toast.promise(handleForgot(values), {
+          pending: {
+            render() {
+              return "please wait";
+            },
+          },
+          success: {
+            render({ data }) {
+              localStorage.setItem("otpToken", data.data.otpToken);
+              navigate("/forgot/otp", { state: { type: "forgotOtp" } });
+              return `${data.data.msg}`;
+            },
+          },
+          error: {
+            render({ data }) {
+              // When the promise reject, data will contains the error
+              return `${data}`;
+            },
+          },
+        });
+      } catch (error) {}
     },
   });
   return (

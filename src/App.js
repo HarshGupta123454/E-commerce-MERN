@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Register from "./Register";
 import Home from "./Home";
 import About from "./About";
-import Product from "./components/Product";
+import Product from "./Products";
 import Contact from "./Contact";
 import Cart from "./Cart";
 import SingleProduct from "./SingleProduct";
@@ -16,7 +16,8 @@ import Login from "./Login";
 import Forgot from "./Forgot";
 import Otp from "./Otp";
 import ResetPassword from "./Resetpassword";
-
+import { Uselogincontext } from "./context/Logincontext";
+import { useEffect } from "react";
 function App() {
   const theme = {
     colors: {
@@ -42,8 +43,15 @@ function App() {
       tab: "998px",
     },
   };
-
-
+  const { isloading, checkAuth } = Uselogincontext();
+  useEffect(() => {
+    console.log("calling");
+    checkAuth();
+  }, []);
+  if (isloading) {
+    console.log("returning loading");
+    return <h1>loading....</h1>;
+  }
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -57,15 +65,15 @@ function App() {
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/forgot/otp" element={<Otp />} />
             <Route path="/forgot/otp/reset" element={<ResetPassword />} />
-            <Route path="/" element={
-              <Protected>
-                <Home />
-              </Protected>
-            } />
+            <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Product />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={
+              <Protected>
+                <Cart />
+              </Protected>
+            } />
             <Route path="/singleproduct/:id" element={<SingleProduct />} />
             <Route path="/*" element={<ErrorPage />} />
           </Routes>

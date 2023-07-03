@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import Product from './Product'
-const Wrapper=styled.section`
-    padding: 5rem 0;
-    .container{
-        max-width: 120rem;
-    }
-    .grid {
+import React from "react";
+import styled from "styled-components";
+import Product from "./Product";
+const Wrapper = styled.section`
+  padding: 5rem 0;
+  .container {
+    max-width: 120rem;
+  }
+  .grid {
     gap: 3.2rem;
   }
   figure {
@@ -86,18 +86,17 @@ const Wrapper=styled.section`
         font-size: 1.4rem;
       }
     }
-}`
+  }
+`;
 
-export default function Gridview({filter_product}) {
+export default function Gridview({ filter_product }) {
   return (
     <Wrapper>
-    <div className="grid grid-three-column">
-        {filter_product.map((curElem)=>{
-            return(
-                <Product  key={curElem.id} {...curElem} />
-            )
+      <div className="grid grid-three-column">
+        {filter_product.map((curElem) => {
+          return <Product key={curElem.id} {...curElem} />;
         })}
-        </div>
+      </div>
     </Wrapper>
-  )
+  );
 }

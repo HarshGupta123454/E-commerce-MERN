@@ -1,11 +1,13 @@
-import React,{useState} from 'react'
-import styled from 'styled-components'
-import {NavLink} from "react-router-dom"
+import React, { useState } from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
+import { Usecartcontext } from "../context/Cartcontext";
 export default function Nav() {
-    const[menuIcon,setMenuIcon]=useState(false);
-    const Nav=styled.nav`
+  const [menuIcon, setMenuIcon] = useState(false);
+  const { items } = Usecartcontext();
+  const Nav = styled.nav`
     .navbar-lists{
         display:flex;
         align-items:center;
@@ -41,8 +43,8 @@ export default function Nav() {
             font-size: 2.7rem;
           }
           .cart-total--item {
-            width: 1.6rem;
-            height: 1.7rem;
+            width: 2rem;
+            height: 2rem;
             font-size:small;
             padding-right: 1px;
             position: absolute;
@@ -64,10 +66,10 @@ export default function Nav() {
             display:inline-block;
             z-index:999;
             font-size:3.4rem;
-            border:${({theme})=> theme.media.mobile}
+            border:${({ theme }) => theme.media.mobile}
 
             .mobile-nav-icon{
-                color:${({theme})=> theme.colors.black}
+                color:${({ theme }) => theme.colors.black}
             }
         }
         .active .mobile-nav-icon{
@@ -76,7 +78,7 @@ export default function Nav() {
             right:6%;
             position:absolute;
             z-index:999;
-            color:${({theme})=> theme.colors.black}
+            color:${({ theme }) => theme.colors.black}
 
         }
         .active .close-outline{
@@ -122,24 +124,59 @@ export default function Nav() {
             }
         }
     }
-}`
+  }`;
   return (
     <Nav>
-        <div className={menuIcon ? "navbar active" : "navbar"}>
-            <ul className="navbar-lists">
-                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/">Home</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/about">About</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/products">Products</NavLink> </li>
-                <li className="navbar-items"><NavLink className="navbar-link" onClick={() => setMenuIcon(false)} to="/contact">Contact</NavLink> </li>
-                <li>
+      <div className={menuIcon ? "navbar active" : "navbar"}>
+        <ul className="navbar-lists">
+          <li className="navbar-items">
+            <NavLink
+              className="navbar-link"
+              onClick={() => setMenuIcon(false)}
+              to="/"
+            >
+              Home
+            </NavLink>{" "}
+          </li>
+          <li className="navbar-items">
+            <NavLink
+              className="navbar-link"
+              onClick={() => setMenuIcon(false)}
+              to="/about"
+            >
+              About
+            </NavLink>{" "}
+          </li>
+          <li className="navbar-items">
+            <NavLink
+              className="navbar-link"
+              onClick={() => setMenuIcon(false)}
+              to="/products"
+            >
+              Products
+            </NavLink>{" "}
+          </li>
+          <li className="navbar-items">
+            <NavLink
+              className="navbar-link"
+              onClick={() => setMenuIcon(false)}
+              to="/contact"
+            >
+              Contact
+            </NavLink>{" "}
+          </li>
+          <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
-              <span className="cart-total--item"> 10 </span>
+              <span className="cart-total--item">
+                {" "}
+                {items > 0 ? items : ""}
+              </span>
               <FiShoppingCart className="cart-trolley" />
             </NavLink>
           </li>
-            </ul>
-         {/* two button for open and close meny */}
-            <div className="mobile-navbar-btn">
+        </ul>
+        {/* two button for open and close meny */}
+        <div className="mobile-navbar-btn">
           <CgMenu
             name="menu-outline"
             className="mobile-nav-icon"
@@ -148,10 +185,10 @@ export default function Nav() {
           <CgClose
             name="close-outline"
             className="mobile-nav-icon close-outline"
-             onClick={() => setMenuIcon(false)}
+            onClick={() => setMenuIcon(false)}
           />
         </div>
-        </div>
+      </div>
     </Nav>
-  )
+  );
 }

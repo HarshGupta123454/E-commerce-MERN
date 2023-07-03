@@ -1,16 +1,18 @@
-import React,{useState}from 'react'
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
-import { Buttons } from './Buttons';
+import { Buttons } from "./Buttons";
 import { FaMinus, FaPlus } from "react-icons/fa";
-const Wrapper=styled.section`
-.colors p {
+import { Usecartcontext } from "../context/Cartcontext";
+import { Uselogincontext } from "../context/Logincontext";
+import { toast } from "react-toastify";
+const Wrapper = styled.section`
+  .colors p {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-}
-.btnStyle {
+  }
+  .btnStyle {
     width: 2rem;
     height: 2rem;
     background-color: #000;
@@ -28,59 +30,98 @@ const Wrapper=styled.section`
   .active {
     opacity: 1;
   }
-  .button{
+  .button {
     background: transparent;
     border: none;
     cursor: pointer;
     margin: 1rem 0;
   }
-  span{
+  span {
     padding: 0 10px;
-    font-size:2rem;
+    font-size: 2rem;
   }
-`
-export default function Addtocart({product}) {
-    console.log(product)
-    const {stock,colors}=product
-    const [color, setColor] = useState(colors[0]);
-    const [amount,setamount]=useState(1);
-    const increase=()=>{
-        amount<stock?setamount(amount+1):setamount(stock)
+`;
+export default function Addtocart({ product }) {
+  const { setCartItem } = Usecartcontext();
+  const { isAuthenticated } = Uselogincontext();
+  console.log(product);
+  const { stock, colors, id } = product;
+  const [color, setColor] = useState(colors[0]);
+  const [quantity, setquantity] = useState(1);
+  const handleClick = async () => {
+    if (isAuthenticated) {
+      const products = {
+        products: {
+          product_id: id,
+          quantity,
+          color,
+        },
+      };
+      try {
+        await toast.promise(setCartItem(products), {
+          pending: {
+            render() {
+              return "please wait";
+            },
+          },
+          success: {
+            render({ data }) {
+              return `${data.data.msg}`;
+            },
+          },
+          error: {
+            render({ data }) {
+              // When the promise reject, data will contains the error
+              return `${data}`;
+            },
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      toast.info("must be login");
     }
-    const decrease=()=>{
-        amount<=1?setamount(1):setamount(amount-1)
-    }
+  };
+  const increase = () => {
+    quantity < stock ? setquantity(quantity + 1) : setquantity(stock);
+  };
+  const decrease = () => {
+    quantity <= 1 ? setquantity(1) : setquantity(quantity - 1);
+  };
   return (
     <>
-    <Wrapper>
+      <Wrapper>
         <div className="color">
-        <p>Color:
-        {colors.map((ele,index)=>{
-            return(
+          <p>
+            Color:
+            {colors.map((ele, index) => {
+              return (
                 <button
-                key={index}
-                style={{backgroundColor:ele}}
-                className={color === ele ? "btnStyle active" : "btnStyle"}
-                onClick={() => setColor(ele)}
+                  key={index}
+                  style={{ backgroundColor: ele }}
+                  className={color === ele ? "btnStyle active" : "btnStyle"}
+                  onClick={() => setColor(ele)}
                 >
-                    {color === ele ? <FaCheck className="checkStyle" /> : null}
+                  {color === ele ? <FaCheck className="checkStyle" /> : null}
                 </button>
-            )
-        })}
-        </p>
+              );
+            })}
+          </p>
         </div>
         <div className="add-to-cart">
-            <div className="add">
-                <button onClick={decrease} className='button'><FaMinus/></button>
-                <span>{amount}</span>
-                <button onClick={increase} className='button'><FaPlus/></button>
-            </div>
-            <NavLink to="/cart">
-                <Buttons>Add To Cart</Buttons>
-            </NavLink>
+          <div className="add">
+            <button onClick={decrease} className="button">
+              <FaMinus />
+            </button>
+            <span>{quantity}</span>
+            <button onClick={increase} className="button">
+              <FaPlus />
+            </button>
+          </div>
+          <Buttons onClick={handleClick}>Add To Cart</Buttons>
         </div>
-    </Wrapper>
-
+      </Wrapper>
     </>
-  )
+  );
 }

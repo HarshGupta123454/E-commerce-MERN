@@ -93,21 +93,25 @@ function otpverify(error = {}, values) {
     if (!values.otp) {
         error.otp = "otp is required"
         toast.error('OTP IS REQUIRED')
-    } else if (values.otp.includes(" ")) {
-        error.otp = "wrong otp"
-        toast.error('WRONG OTP')
     }
     return error
 }
 
 /**validate reset option */
 function resetVerify(error = {}, values) {
+    // eslint-disable-next-line no-useless-escape
+    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!values.password && !values.confirm) {
         error.password = "PASSWORD require"
         toast.error('PASSWORD REQUIRE');
-    } else if (values.password !== values.confirm) {
+    } else if (!specialChars.test(values.password)) {
+        error.password = "Password must have special character"
+        toast.error("Password must have special character");
+    }
+    else if (values.password !== values.confirm) {
         error.password = "password and confirm password didn't match"
         toast.error('PASSWORD AND CONFIRM PASSWORD DIDN\'T MATCH');
     }
+
     return error
 }

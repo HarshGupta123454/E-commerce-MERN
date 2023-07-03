@@ -45,7 +45,6 @@ h2{
    font-size: 4.4rem;
    font-weight: 300;
    white-space: normal;
-  
 }
 h3 {
   font-size: 1.8rem;
@@ -113,6 +112,7 @@ input, textarea{
     border: 1px solid ${({ theme }) => theme.colors.border};
     text-transform: uppercase;
    box-shadow: ${({ theme }) => theme.colors.shadowSupport};
+   outline: none;
 }
     input[type="submit"]{
     max-width: 16rem;

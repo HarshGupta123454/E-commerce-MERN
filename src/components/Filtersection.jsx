@@ -20,9 +20,15 @@ const Wrapper = styled.section`
     width: 80%;
 
     input {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 2rem;
       width: 90%;
     }
+  }
+  .filter-company--select {
+    padding: 0.3rem 1.2rem;
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    cursor: pointer;
   }
   .category-data,
   .company-filter {
@@ -146,20 +152,20 @@ export default function Filtersection() {
       <div className="company-filter">
         <h3>Company</h3>
         <div>
-          {company.map((ele, index) => {
-            return (
-              <button
-                className={ele === filter.company ? "active" : ""}
-                type="button"
-                key={index}
-                name="company"
-                value={ele}
-                onClick={(e) => filtervalue(e)}
-              >
-                {ele}
-              </button>
-            );
-          })}
+          <select
+            name="company"
+            id="company"
+            className="filter-company--select"
+            onClick={(e) => filtervalue(e)}
+          >
+            {company.map((curElem, index) => {
+              return (
+                <option key={index} value={curElem} name="company">
+                  {curElem}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
       <div className="filter-color">

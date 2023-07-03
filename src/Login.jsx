@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { loginValidation } from "./Helper/validate";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import MailIcon from "@mui/icons-material/Mail";
+import { Uselogincontext } from "./context/Logincontext";
+import { toast } from "react-toastify";
 const Wrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -124,6 +126,8 @@ const Wrapper = styled.section`
 `;
 export default function Login() {
   const [togglePassword, setTogglePassword] = useState(false);
+  const { handleLogin } = Uselogincontext();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validateOnBlur: false,
@@ -131,6 +135,30 @@ export default function Login() {
     validate: loginValidation,
     onSubmit: async (values) => {
       console.log(values);
+      try {
+        await toast.promise(handleLogin(values), {
+          pending: {
+            render() {
+              return "please wait";
+            },
+          },
+          success: {
+            render({ data }) {
+              localStorage.setItem("authToken", data.data.authToken);
+              navigate("/");
+              return `${data.data.msg}`;
+            },
+          },
+          error: {
+            render({ data }) {
+              // When the promise reject, data will contains the error
+              return `${data}`;
+            },
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
